@@ -1,70 +1,28 @@
-# Getting Started with Create React App
+### Overview
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A react app, configured with CI/CD. Using,
 
-## Available Scripts
+- `Docker`
+- `Travis CI`
+- `AWS Beanstalk`
 
-In the project directory, you can run:
+### Run In Development Machine
 
-### `yarn start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Run `docker-compose up --build`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### CI/CD for Production
 
-### `yarn test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Update `.travis.yml` as followings,
 
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  - `provider`, should be `elasticbeanstalk`, already configured and heavy lifting by the `Travis CI`
+  - `region`, Where the `AWS Elastic Beanstalk` is being created
+  - `app`, our `Elastic Beanstalk` app name
+  - `env`, our `Elastic Beanstalk` environment name
+  - `bucket_name`, automatically generated bucket name by the `Elastic Beanstalk`
+  - `bucket_path`, same as the `app` name
+  - `on -> branch`, on which branch code changes, we should re-deploy the code base
+  - `credentials`, to get the credentials to access `Elastic Beanstalk` by `Travis CI`, we have to create a new IAM user with full programmatic access to `Elastic Beanstalk`. For security purpose, we will use the `Travis CI` environment variables to store our aws access key and secret.
